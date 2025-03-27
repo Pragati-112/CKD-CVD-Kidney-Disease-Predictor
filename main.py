@@ -8,9 +8,13 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, GRU, Dense, Dropout, BatchNormalization
 from sklearn.metrics import accuracy_score, roc_auc_score
+from google.colab import files
+
 
 # Step 1: Load and Preprocess Data
-df = pd.read_csv("/content/kidney_disease.csv")
+uploaded = files.upload()
+
+df = pd.read_csv("kidney_disease.csv")
 
 # Identify numerical and categorical columns
 numerical_cols = df.select_dtypes(include=np.number).columns
