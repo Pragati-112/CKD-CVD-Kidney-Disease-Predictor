@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CKD-CVD Risk Analysis</title>
+  <link rel="stylesheet" href="./proj.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">RENO</div>
+    <nav class="navbar">
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="index.html">
+    <button class="login-button">Login</button></a>
+  </header>
+
+  <main class="main-content">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Predict and Prevent with Advanced Insights</h1>
+        <p>Our system leverages machine learning to enhance early detection and management of CKD and CVD risks.</p>
+        <button class="cta-button" id="predict-btn">Get Started</button>
+      </div>
+      
+      <div class="hero-image">
+        <img src="https://www.revivaclinic.com/wp-content/uploads/2017/09/bundle-pricing-sfw.jpg" alt="Analysis Illustration">
+      </div>
+    </section>
+
+    <section id="features" class="features-section">
+      <h2>Key Features</h2>
+      <div class="features">
+        <div class="feature" id="img1">
+          <img src="https://pub.mdpi-res.com/applsci/applsci-13-02885/article_deploy/html/images/applsci-13-02885-g001.png?1677236206" alt="data integration">
+          <h3>Data Integration</h3>
+          <p>Seamlessly integrate and preprocess patient data for enhanced accuracy.</p>
+        </div>
+        <div class="feature" id="img2">
+          <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTeaTnqhUiwqq0--Yuu5eYziyBiqHQc5uCV4eUPiJCWgk8Q7bjq" alt="ai model">
+          <h3>AI Modeling</h3>
+          <p>Train and implement predictive models tailored for CKD and CVD risks.</p>
+        </div>
+        <div class="feature" id="img3">
+          <img src="https://cdn2.iconfinder.com/data/icons/medical-13-1/512/xxx010-512.png" alt="Dashboard">
+          <h3>Interactive Dashboard</h3>
+          <p>Visualize results, trends, and actionable insights in a user-friendly interface.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="team-section">
+      <h2>Our Team</h2>
+      <p>Meet the experts driving innovation in healthcare analytics.</p>
+    </section>
+    <section id="prediction-result" class="team-section">
+      <div id="result" style="display: none; background: #f1f1f1; padding: 20px; border-radius: 8px;">
+        <!-- Prediction result will be displayed here -->
+      </div>
+    </section>    
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 CKD-CVD Analysis Project | All Rights Reserved</p>
+  </footer>
+
+  <!-- Prediction Script -->
+  <script>
+    document.getElementById("predict-btn").addEventListener("click", () => {
+      fetch("http://localhost:5000/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          input: [
+            [0.5, 1.2, 0.8, 0.7, 0.6, 0.9, 1.0, 0.2, 0.3, 0.4, 0.5, 0.1],
+            [0.6, 1.1, 0.7, 0.8, 0.7, 0.8, 0.9, 0.3, 0.2, 0.5, 0.6, 0.2],
+            [0.4, 1.3, 0.9, 0.6, 0.8, 1.0, 1.1, 0.1, 0.4, 0.3, 0.4, 0.3],
+            [0.7, 1.0, 0.6, 0.7, 0.6, 0.9, 1.0, 0.2, 0.3, 0.4, 0.5, 0.4],
+            [0.5, 1.2, 0.8, 0.8, 0.9, 1.1, 1.2, 0.3, 0.2, 0.5, 0.6, 0.5],
+            [0.6, 1.1, 0.7, 0.6, 0.5, 0.8, 0.9, 0.1, 0.4, 0.3, 0.4, 0.6],
+            [0.4, 1.3, 0.9, 0.7, 0.6, 0.9, 1.0, 0.2, 0.3, 0.4, 0.5, 0.7],
+            [0.5, 1.2, 0.8, 0.9, 0.8, 1.2, 1.3, 0.3, 0.2, 0.5, 0.6, 0.8],
+            [0.6, 1.1, 0.7, 0.5, 0.4, 0.7, 0.8, 0.1, 0.4, 0.3, 0.4, 0.9],
+            [0.7, 1.0, 0.6, 0.6, 0.5, 0.9, 1.0, 0.2, 0.3, 0.4, 0.5, 1.0]
+          ]
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = `
+    <h3>Prediction Result</h3>
+    <p><strong>Prediction:</strong> ${data.prediction}</p>
+    <p><strong>Probability:</strong> ${data.probability.toFixed(4)}</p>
+  `;
+  resultDiv.style.display = "block";
+})
+
+      .catch(error => {
+        alert("Prediction failed. Check backend.");
+        console.error("Error:", error);
+      });
+    });
+  </script>
+</body>
+</html>
